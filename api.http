@@ -1,0 +1,41 @@
+###
+GET http://localhost:3000/
+
+###
+POST http://localhost:3000/employees
+Content-Type: application/json
+
+{
+  "fullName": "Deggau",
+  "email": "deggau@email.com"
+}
+
+
+###
+POST http://localhost:3000/employees/1/appointments
+Content-Type: application/json
+
+{
+  "startDate": "2022-02-23T18:13:23.474Z",
+  "endDate": "2022-02-23T18:13:23.474Z",
+  "description": "batata"
+}
+
+###
+GET http://localhost:3000/employees/1/appointments
+
+###
+GET http://localhost:3000/appointments/1
+
+###
+PATCH   http://localhost:3000/appointments/3
+Content-Type: application/json
+
+{
+  "employee": "aad",
+  "description": "testeee"
+}
+
+###
+DELETE  http://localhost:3000/appointments/2
+
