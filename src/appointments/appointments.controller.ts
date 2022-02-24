@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Query,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { FindAppointmentDto } from './dto/find-appointment.dto';
+import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
 @Controller('employees/:employeeId/appointments')
 export class AppointmentsController {
@@ -20,37 +21,39 @@ export class AppointmentsController {
   @Post()
   create(
     @Body() createAppointmentDto: CreateAppointmentDto,
-    @Param('employeeId') employeeId: string,
+    @Param('employeeId', ParseIntPipe) employeeId: number,
   ) {
-    return this.appointmentsService.create({
+    return this.appointmentsService.create(employeeId, {
       ...createAppointmentDto,
-      employeeId: +employeeId,
     });
   }
 
   @Get()
   findAll(
     @Query() query: FindAppointmentDto,
-    @Param('employeeId') employeeId: string,
+    @Param('employeeId', ParseIntPipe) employeeId: number,
   ) {
-    return this.appointmentsService.findAll(+employeeId, query);
+    return this.appointmentsService.findAll(employeeId, query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.appointmentsService.findOne(+id);
+  findOne(
+    @Param('employeeId', ParseIntPipe) employeeId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.appointmentsService.findOne(employeeId, id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateAppointmentDto: UpdateAppointmentDto,
   ) {
-    return this.appointmentsService.update(+id, updateAppointmentDto);
+    return this.appointmentsService.update(id, updateAppointmentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.appointmentsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.appointmentsService.remove(id);
   }
 }

@@ -1,37 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { FindAppointmentDto } from './dto/find-appointment.dto';
+import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { AppointmentWithEmployee } from './entities/appointment-with-employee.entity';
+import { Appointment } from './entities/appointment.entity';
 
 @Injectable()
 export class AppointmentsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createAppointmentDto: CreateAppointmentDto) {
-    const { employeeId, description, endDate, startDate } =
-      createAppointmentDto;
-
+  create(
+    employeeId: number,
+    createAppointmentDto: CreateAppointmentDto,
+  ): Promise<Appointment> {
+    const { description, endDate, startDate } = createAppointmentDto;
     return this.prisma.appointment.create({
       data: {
-        employeeId,
+        employee: {
+          connect: {
+            id: employeeId,
+          },
+        },
         description,
-        endDate: new Date(endDate),
-        startDate: new Date(startDate),
+        endDate,
+        startDate,
       },
     });
   }
 
-  async findAll(employeeId: number, query: FindAppointmentDto) {
-    const { take, skip, search } = query;
+  findAll(
+    employeeId: number,
+    query: FindAppointmentDto,
+  ): Promise<AppointmentWithEmployee[]> {
+    const { take, skip } = query;
 
-    // const where = {
-    //   employee: {
-    //     contains: search,
-    //   },
-    // };
-
-    const data = await this.prisma.appointment.findMany({
+    return this.prisma.appointment.findMany({
       where: {
         employeeId,
       },
@@ -40,30 +44,25 @@ export class AppointmentsService {
       },
       take,
       skip,
-      // where,
     });
-
-    const count = await this.prisma.appointment.count({
-      // where,
-    });
-
-    return {
-      data,
-      count,
-    };
   }
 
-  findOne(id: number) {
-    return this.prisma.appointment.findUnique({
+  findOne(employeeId: number, id: number): Promise<AppointmentWithEmployee> {
+    return this.prisma.appointment.findFirst({
       where: {
         id,
+        employeeId,
+      },
+      include: {
+        employee: true,
       },
     });
   }
 
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    console.log(updateAppointmentDto);
-
+  update(
+    id: number,
+    updateAppointmentDto: UpdateAppointmentDto,
+  ): Promise<Appointment> {
     return this.prisma.appointment.update({
       data: updateAppointmentDto,
       where: {
@@ -72,7 +71,7 @@ export class AppointmentsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: number): Promise<Appointment> {
     return this.prisma.appointment.delete({
       where: {
         id,
