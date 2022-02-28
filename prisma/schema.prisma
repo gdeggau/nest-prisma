@@ -26,6 +26,6 @@ model Employee {
   fullName String
   email    String @unique
 
+  appointments Appointment[]
   @@map("employees")
-  Appointment Appointment[]
 }
