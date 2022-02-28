@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityNotFoundError } from 'src/errors/entity-not-found.error';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { EntityNotFoundError } from 'src/errors/EntityNotFoundError';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
