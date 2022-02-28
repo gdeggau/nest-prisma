@@ -1,45 +1,45 @@
 import { Injectable } from '@nestjs/common';
+import { EntityNotFoundError } from 'src/errors/entity-not-found.error';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
+import { EmployeeRepository } from './repository/employees.repository.abstract';
 
 @Injectable()
 export class EmployeesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private employeeRepository: EmployeeRepository) {}
 
   create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
-    return this.prisma.employee.create({
-      data: createEmployeeDto,
-    });
+    return this.employeeRepository.create(new Employee(createEmployeeDto));
   }
 
-  findAll(): Promise<Employee[]> {
-    return this.prisma.employee.findMany();
+  // findAll(): Promise<Employee[]> {
+  //   return this.prisma.employee.findMany();
+  // }
+
+  find(id: number): Promise<Employee> {
+    return this.employeeRepository.find(id);
   }
 
-  findOne(id: number): Promise<Employee> {
-    return this.prisma.employee.findUnique({
-      where: {
-        id,
-      },
-    });
+  async update(
+    id: number,
+    updateEmployeeDto: UpdateEmployeeDto,
+  ): Promise<Employee> {
+    const employee = await this.find(id);
+
+    if (!employee) {
+      throw new EntityNotFoundError();
+    }
+
+    return this.employeeRepository.update(id, updateEmployeeDto);
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    return this.prisma.employee.update({
-      where: {
-        id,
-      },
-      data: updateEmployeeDto,
-    });
-  }
-
-  remove(id: number) {
-    return this.prisma.employee.delete({
-      where: {
-        id,
-      },
-    });
-  }
+  // remove(id: number) {
+  //   return this.prisma.employee.delete({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  // }
 }

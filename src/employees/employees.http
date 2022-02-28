@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "fullName": "deggau",
-  "email": "deggau7@email.com"
+  "email": "deggau8@email.com"
 }
 
 ###
@@ -14,7 +14,7 @@ GET http://localhost:3000/employees
 GET http://localhost:3000/employees/2
 
 ###
-PATCH http://localhost:3000/employees/2
+PATCH http://localhost:3000/employees/3
 Content-Type: application/json
 
 {

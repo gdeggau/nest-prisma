@@ -21,15 +21,15 @@ export class EmployeesController {
     return this.employeesService.create(createEmployeeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.employeesService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.employeesService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.employeesService.findOne(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id', ParseIntPipe) id: number) {
+  //   return this.employeesService.findOne(id);
+  // }
 
   @Patch(':id')
   update(
@@ -39,8 +39,8 @@ export class EmployeesController {
     return this.employeesService.update(id, updateEmployeeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.employeesService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id', ParseIntPipe) id: number) {
+  //   return this.employeesService.remove(id);
+  // }
 }
