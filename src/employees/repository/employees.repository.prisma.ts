@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { EmployeeRepository } from '../employees.repository.abstract';
+import { EmployeeRepository } from './employees.repository.abstract';
 
 @Injectable()
 export class EmployeeRepositoryPrisma implements EmployeeRepository {

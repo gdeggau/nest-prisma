@@ -1,0 +1,27 @@
+###
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "fullName": "test",
+  "email": "test@email.com",
+  "password": "12345"
+}
+
+###
+GET http://localhost:3000/employees
+
+###
+GET http://localhost:3000/employees/2
+
+###
+PATCH http://localhost:3000/employees/3
+Content-Type: application/json
+
+{
+  "fullName": "deggauuuuuuu"
+}
+
+###
+DELETE http://localhost:3000/employees/3
+

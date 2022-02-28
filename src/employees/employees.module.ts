@@ -3,7 +3,7 @@ import { EmployeesService } from './employees.service';
 import { EmployeesController } from './employees.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { EmployeeRepository } from './repository/employees.repository.abstract';
-import { EmployeeRepositoryPrisma } from './repository/prisma/employees.repository.prisma';
+import { EmployeeRepositoryPrisma } from './repository/employees.repository.prisma';
 
 @Module({
   controllers: [EmployeesController],
